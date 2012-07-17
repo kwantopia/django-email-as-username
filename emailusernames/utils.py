@@ -46,6 +46,7 @@ def create_user(email, password=None, is_staff=None, is_active=None):
     Create a new user with the given email.
     Use this instead of `User.objects.create_user`.
     """
+    email = email.lower()
     try:
         user = User.objects.create_user(email, email, password)
     except IntegrityError, err:
