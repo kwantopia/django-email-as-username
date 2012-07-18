@@ -100,3 +100,25 @@ class EmailUserChangeForm(UserChangeForm):
     def __init__(self, *args, **kwargs):
         super(EmailUserChangeForm, self).__init__(*args, **kwargs)
         del self.fields['username']
+
+class NameEmailUserCreationForm(UserCreationForm):
+    """
+    Override the default UserCreationForm to force email-as-username behavior.
+    """
+    email = forms.EmailField(label=_("Email"), max_length=75)
+
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "email",)
+
+    def __init__(self, *args, **kwargs):
+        super(EmailUserCreationForm, self).__init__(*args, **kwargs)
+        del self.fields['username']
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        if user_exists(email):
+            raise forms.ValidationError(_("A user with that email already exists."))
+        return email
+
+
