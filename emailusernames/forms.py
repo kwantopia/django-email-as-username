@@ -112,7 +112,7 @@ class NameEmailUserCreationForm(UserCreationForm):
         fields = ("first_name", "last_name", "email",)
 
     def __init__(self, *args, **kwargs):
-        super(EmailUserCreationForm, self).__init__(*args, **kwargs)
+        super(NameEmailUserCreationForm, self).__init__(*args, **kwargs)
         del self.fields['username']
 
     def clean_email(self):
